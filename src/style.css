@@ -1,0 +1,375 @@
+/* ============================================
+   汉字乐园 - 儿童汉字学习应用 设计系统
+   ============================================ */
+
+/* ---------- Google Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+/* ---------- Design Tokens ---------- */
+:root {
+  /* 主色调 - 温暖珊瑚粉 */
+  --color-primary: #FF6B9D;
+  --color-primary-light: #FF9EC0;
+  --color-primary-dark: #E54D80;
+
+  /* 辅助色 - 天空蓝 */
+  --color-secondary: #4ECDC4;
+  --color-secondary-light: #7EDDD7;
+  --color-secondary-dark: #36B5AD;
+
+  /* 强调色 - 阳光黄 */
+  --color-accent: #FFE66D;
+  --color-accent-light: #FFF0A0;
+  --color-accent-dark: #F5D43A;
+
+  /* 成功色 - 薄荷绿 */
+  --color-success: #55EFC4;
+  --color-success-light: #81F5D8;
+  --color-success-dark: #2ED8A8;
+
+  /* 警告色 - 橙色 */
+  --color-warning: #FDCB6E;
+  --color-warning-dark: #E5B04E;
+
+  /* 错误色 - 柔和红 */
+  --color-danger: #FF7675;
+  --color-danger-dark: #E05655;
+
+  /* 紫色 */
+  --color-purple: #A29BFE;
+  --color-purple-light: #C4BFFF;
+
+  /* 背景色 */
+  --color-bg: #FFF8F0;
+  --color-bg-warm: #FFF3E8;
+  --color-bg-card: #FFFFFF;
+
+  /* 文字色 */
+  --color-text: #2D3436;
+  --color-text-light: #636E72;
+  --color-text-muted: #B2BEC3;
+
+  /* 渐变 */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-purple));
+  --gradient-secondary: linear-gradient(135deg, var(--color-secondary), #45B7D1);
+  --gradient-warm: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
+  --gradient-sky: linear-gradient(180deg, #E8F4FD, var(--color-bg));
+  --gradient-rainbow: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-secondary), var(--color-purple));
+  --gradient-hero: linear-gradient(180deg, rgba(255,248,240,0) 0%, rgba(255,248,240,1) 100%);
+
+  /* 阴影 */
+  --shadow-soft: 0 4px 20px rgba(255, 107, 157, 0.15);
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 12px 40px rgba(255, 107, 157, 0.2);
+  --shadow-button: 0 4px 15px rgba(255, 107, 157, 0.3);
+  --shadow-float: 0 20px 60px rgba(0, 0, 0, 0.1);
+
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* 间距 */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* 字体 */
+  --font-body: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-hanzi: 'Ma Shan Zheng', 'KaiTi', cursive;
+
+  /* 动画 */
+  --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ---------- Reset & Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ---------- Element Plus Theme Override ---------- */
+:root {
+  --el-color-primary: var(--color-primary);
+  --el-color-success: var(--color-success-dark);
+  --el-color-warning: var(--color-warning);
+  --el-color-danger: var(--color-danger);
+  --el-color-info: var(--color-secondary);
+  --el-border-radius-base: var(--radius-sm);
+  --el-border-radius-small: 6px;
+  --el-border-radius-round: var(--radius-full);
+  --el-font-family: var(--font-body);
+}
+
+.el-button {
+  border-radius: var(--radius-full) !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.el-card {
+  border-radius: var(--radius-lg) !important;
+  border: none !important;
+  box-shadow: var(--shadow-card) !important;
+  overflow: hidden;
+}
+
+.el-message-box {
+  border-radius: var(--radius-lg) !important;
+}
+
+.el-progress__text {
+  font-weight: 700 !important;
+}
+
+/* ---------- Animations ---------- */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(3deg); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounce-in {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes rainbow-border {
+  0% { border-color: var(--color-primary); }
+  25% { border-color: var(--color-accent); }
+  50% { border-color: var(--color-secondary); }
+  75% { border-color: var(--color-purple); }
+  100% { border-color: var(--color-primary); }
+}
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-float-slow { animation: floatSlow 5s ease-in-out infinite; }
+.animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+.animate-sparkle { animation: sparkle 2s ease-in-out infinite; }
+.animate-slide-up { animation: slideUp 0.6s ease-out forwards; }
+.animate-bounce-in { animation: bounce-in 0.6s ease-out forwards; }
+.animate-wiggle { animation: wiggle 0.5s ease-in-out; }
+
+/* ---------- Utility Classes ---------- */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-xl);
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.card-cute {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-cute:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.card-cute::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-rainbow);
+  background-size: 300% 100%;
+  animation: rainbow-border 3s linear infinite;
+}
+
+.btn-cute {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 12px 28px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  box-shadow: var(--shadow-button);
+  text-decoration: none;
+}
+
+.btn-cute:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-cute:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.btn-secondary {
+  background: var(--gradient-secondary);
+  color: white;
+}
+
+.btn-accent {
+  background: var(--color-accent);
+  color: var(--color-text);
+}
+
+/* 田字格背景 */
+.tian-grid {
+  position: relative;
+  background-color: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: var(--radius-md);
+}
+
+.tian-grid::before,
+.tian-grid::after {
+  content: '';
+  position: absolute;
+  background: var(--color-primary-light);
+  opacity: 0.4;
+}
+
+.tian-grid::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  border-left: 1px dashed var(--color-primary-light);
+}
+
+.tian-grid::after {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  border-top: 1px dashed var(--color-primary-light);
+}
+
+/* 星星评分 */
+.star {
+  display: inline-block;
+  font-size: 1.5rem;
+  transition: var(--transition-bounce);
+}
+
+.star.active {
+  animation: bounce-in 0.3s ease-out;
+}
+
+/* 装饰性气泡 */
+.deco-bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* 页面过渡 */
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.3s ease;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--space-md);
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+}
